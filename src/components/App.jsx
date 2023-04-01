@@ -7,7 +7,7 @@ export class App extends Component {
   state = {
     searchText: '',
   };
-  handleSubmit = searchText => {
+  handleSubmit = (searchText) => {
     this.setState({ searchText });
   };
 

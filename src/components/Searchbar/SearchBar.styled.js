@@ -18,7 +18,7 @@ export const Button = styled.button`
 }
 `;
 
-export const Input = styled.input`
+export const Form = styled.form`
   display: flex;
   align-items: center;
   width: 100%;
@@ -32,3 +32,13 @@ export const Input = styled.input`
   font-size: 18px;
 }
 `;
+export const Input = styled.input`
+display: inline-block;
+  width: 100%;
+  font: inherit;
+  font-size: 20px;
+  border: 1px solid black;
+  outline: none;
+  padding-left: 4px;
+  padding-right: 4px;
+`

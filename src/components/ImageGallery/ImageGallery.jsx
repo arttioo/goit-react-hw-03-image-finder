@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { ImageGalleryItem } from 'components/ImageGalleryItem/ImageGalleryItem';
 import { Loader } from 'components/Loader/Loader';
 import { Component } from 'react';
-import { FetchImage } from './FetchImage';
+import { fetchImage } from './FetchImage';
 import { List } from './ImageGallery.styled';
 
 export class ImageGallery extends Component {
@@ -12,7 +12,6 @@ export class ImageGallery extends Component {
     loading: false,
     error: null,
     page: 1,
-
     totalHits: 0,
   };
 
@@ -21,8 +20,11 @@ export class ImageGallery extends Component {
       prevProps.value !== this.props.value ||
       prevState.page !== this.state.page
     ) {
+      if (prevProps.value !== this.props.value) {
+        this.setState({ page: 1, pictures: [] });
+      }
       this.setState({ loading: true, error: null, totalHits: 0 });
-      FetchImage(this.props.value.trim(), this.state.page)
+      fetchImage(this.props.value.trim(), this.state.page)
         .then(res => {
           return res.json();
         })
@@ -51,17 +53,20 @@ export class ImageGallery extends Component {
   handleLoad = () => {
     this.setState(prev => ({ page: prev.page + 1 }));
   };
+
   render() {
     const { pictures, loading, error } = this.state;
     return (
       <>
-        <List className="gallery">
-          {loading && <Loader />}
-          {pictures &&
-            pictures.map(picture => (
-              <ImageGalleryItem key={picture.id} {...picture} />
-            ))}
-        </List>
+        {this.props.value && (
+          <List className="gallery">
+            {pictures &&
+              pictures.map(picture => (
+                <ImageGalleryItem key={picture.id} {...picture} />
+              ))}
+          </List>
+        )}
+        {loading && <Loader />}
         {error && <h1>{error.message}</h1>}
         {pictures.length * this.state.page < this.state.totalHits && (
           <Button onClick={this.handleLoad} />
