@@ -8,7 +8,6 @@ export class SearchBar extends Component {
   };
   handleChange = ({ target: { value } }) => {
     this.setState({ value });
-    
   };
   handleSubmit = e => {
     e.preventDefault();
