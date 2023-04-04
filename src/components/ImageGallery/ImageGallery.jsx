@@ -20,11 +20,23 @@ export class ImageGallery extends Component {
       prevProps.value !== this.props.value ||
       prevState.page !== this.state.page
     ) {
+      console.log(prevProps.value !== this.props.value);
+      console.log(
+        prevState.page !== this.state.page &&
+          prevProps.value === this.props.value
+      );
       if (prevProps.value !== this.props.value) {
-        this.setState({ page: 1, pictures: [] });
+        this.setState({ pictures: [] });
       }
-      this.setState({ loading: true, error: null, totalHits: 0 });
-      fetchImage(this.props.value.trim(), this.state.page)
+      this.setState({
+        loading: true,
+        error: null,
+        totalHits: 0,
+      });
+      fetchImage(
+        this.props.value.trim(),
+        prevProps.value !== this.props.value ? 1 : this.state.page
+      )
         .then(res => {
           return res.json();
         })
